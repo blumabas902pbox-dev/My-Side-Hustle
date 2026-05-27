@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Son of Gorgon | Bryan Jay M.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: #121212;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent-gold: #f1c40f;
+            --border-color: #2a2a2a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        @media screen and (min-width: 768px) {
+            .container {
+                max-width: 850px;
+                padding: 40px 0;
+            }
+
+            .story-title {
+                font-size: 3.5rem !important;
+                letter-spacing: -1px;
+            }
+
+            .story-body p {
+                font-size: 1.25rem !important;
+                margin-bottom: 2rem;
+            }
+
+            .author-badge {
+                font-size: 1.1rem !important;
+            }
+
+            .quote-box {
+                font-size: 1.2rem;
+                padding: 20px 30px;
+            }
+            
+            .about-card {
+                padding: 25px;
+            }
+
+            .stats {
+                gap: 30px;
+                font-size: 1rem !important;
+            }
+        }
+
+        .hero-img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            filter: grayscale(100%) contrast(1.1);
+        }
+
+        .story-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .story-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .author-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .author-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .quote-box {
+            border-left: 4px solid var(--accent-gold);
+            padding: 10px 20px;
+            background: #1a1a1a;
+            margin: 20px 0;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        .story-body p {
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            color: #e0e0e0;
+        }
+
+        .about-section {
+            margin-top: 50px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        .about-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .about-card:hover {
+            transform: scale(1.01);
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .stat-item i {
+            margin-right: 4px;
+        }
+
+        .heart-active {
+            color: #e74c3c;
+            animation: pulse 0.3s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        .comments-header {
+            margin-top: 40px;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .comment-input-area {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: white;
+            resize: none;
+            font-family: inherit;
+            margin-bottom: 10px;
+            outline: none;
+        }
+
+        .btn-comment {
+            background: var(--accent-gold);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            float: right;
+            cursor: pointer;
+        }
+
+        #comment-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .comment-item {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .comment-user {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: var(--accent-gold);
+            margin-bottom: 5px;
+        }
+
+        .comment-text {
+            outline: none;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .comment-text[contenteditable="true"] {
+            background: #1a1a1a;
+            border: 1px dashed var(--accent-gold);
+        }
+
+        .edit-btn {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            margin-left: 10px;
+            background: none;
+            border: none;
+        }
+
+        .edit-btn:hover {
+            color: var(--accent-gold);
+        }
+    </style>
+    
+</head>
+
+<body>
+
+<div class="container">
+    <img src="Son of Gorgon.jpg" alt="Medusa Knocker" class="hero-img">
+    
+    <header class="story-header">
+        <h1 class="story-title">Son Of Gorgon</h1>
+        <div class="author-badge">
+            <a href="https://blumabas902pbox-dev.github.io/Personal-Profile/" target="_blank" style="display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none;">
+                <img src="Bryan Jay M.png" alt="Bryan Jay M." class="author-avatar">
+                <span>By <strong>Bryan Jay M.</strong></span>
+            </a>
+        </div>
+    </header>
+
+    <div class="quote-box">
+        "This is my first time leaning into Greek myths and yeah! I'm writing a fanfic, cuz I'm used to write original stories." ©BJML
+    </div>
+
+    <article class="story-body">
+      <p>Hi! My name's Copperhead. I mean, Connor. Yes, if you're asking. I am one of the Gorgons. My mother, <strong>Medusa</strong>, she has a literal sense of humor when she isn’t busy being a reclusive mom with a serious hair-care bill.</p>
+      <p>Re-bonding her scaly pets wasn't that hard as I've thought it was. They're full of dandruff. Same with mine. She told me once that she named me Copperhead because when I was born, my scalp didn’t have hair; it had a tiny, shimmering hatchlings that looked like burnished pennies. And I hate it. If only I chose one of my abilities.</p>
+      <p>Growing up in a modern-day Athens is not exactly as much fun as my root canal without anesthesia. Our world is full of gifted people. You’ve got the guys who can lift double deck buses because their great-grandpa was a <strong>Titan</strong>, and pretty girls who can start fires because they’re third cousins of <strong>Phoenix</strong>.</p>
+      <p>It’s a circus of superpowers and being sketchy as abilities. But me? I’m just the ultimate party pooper. I don't get to fly or shoot lasers as I've wanted when I was a kid. What I did was turn people into very realistic, very dead garden ornaments if they did catch a glimpse of my amber pupils.</p>
+      <p>But, whenever I feel like I'm a freak, Auntie <strong>Sthena</strong> and <strong>Euryale</strong> are the first ones to crash my tower with boxes of stolen nectar donuts and sharing some gossip about which Greek gods are currently failing at life.</p>
+      <p>Aunt Sthena constantly tries to convince me that my goggles look like vintage rockstar gear rather than a safety equipment, while Aunt Euryale spent almost an entire afternoon teaching my hair-snakes how to hiss in sync to her favorite songs made by <strong>Orpheus</strong>. They treat my deadly nature as a family quirk to be celebrated, often threatening my school bullies to turn them into limestone lawn gnomes if he ever gives them the word. And I've missed them.</p>
+      
+      <div class= "quote-box">
+        "You have to go, Copper," my mom said. "Education is the only thing they can’t take away from you. Well, that and your ability to accidentally murder the mailman."
+      </div>
+
+      <p>While she's adjusting her <strong>Hermes</strong>-brand silk wrap over her own writhing tresses and such.</p>
+      
+      <div class= "quote-box">"I don't want to go to school, Mom," I argued, staring at my own feet.</div>
+      
+      <p>I wore heavy, wrap-around lead-lined goggles that made me look like a steampunk welders.</p>
+      
+      <div class= "quote-box">"The world is cruel. People don't see me as a kid; they see a biohazard. I’ll be the guy who turned the varsity wrestling team into a rock garden."
+      </div>
+
+      <p>Deep down. I'm terrified and my hair too. But.</p>
+      
+      <p>Mom didn't budge. She sent me to the most prestigious institution: Olympus High, a school complex built for the differently abled. Though, even in a school for monsters and demigods, I'm just a freak.</p>
+      
+      <p>To accommodate my condition, the great administration didn't put me in a classroom. They put me in the West Tower; it's crumbling, refurbished bell tower at the edge of campus.</p>
+      
+      <p>I was a high schooler in solitary confinement. This is great as the abyss of <strong>Hades</strong> realm.</p>
+      
+      <p>The teachers would leave me tablets and textbooks at the base of the spiral stairs. I’d attend lectures via Zoom, with my camera strictly off. I’d sit on the cold stone floor, alone, listening to the muffled sounds of teenagers downstairs; while they're cheering at the games, laughing in the cafeteria, living lives that didn't involve a 100% chance of homicide-by-eye-contact.</p>
+      
+      <p>I spent three months in that tower. And, I became an expert on the texture of dust motes. I knew every crack in the ceiling of hopelessness. I was seventeen, lonely enough to talk to the deadbeat gargoyles, and I was convinced that my life was a slow-motion tragedy. Oh! <strong>Zeus</strong>, end my despair already!</p>
+      
+      <p>Until... Friday, it rained with loneliness.</p>
+      
+      <p>The door at the bottom of the tower usually stayed locked, but the janitor; a guy with four arms who was always distracted... must have left it ajar. I heard the rhythmic thump-tap, thump-tap of something hitting the steps.</p>
+
+      <p>Panic surged through me. My goggles were on the table across the room. As I scrambled backward, pressing my back against the wall, covering my eyes with my hands.</p>
+      
+      <div class= "quote-box">"Don't come up!" I yelled, my voice cracking. "Stop! Stay back!"</div>
+      
+      <p>The footsteps didn't stop. They were slow, deliberate. Thump-tap. Thump-tap.</p>
+      
+      <p>A girl’s head appeared above the creaking floorboards. She wore a simple yellow raincoat, slick with water. She looked... normal. No wings, no glowing skin, no extra limbs. Just a girl. She was holding a long white cane in one hand and a bulging tote bag in the other.</p>
+      
+      <div class= "quote-box">"Is someone up here?" she asked. Her voice was clear as water. "I was looking for the old music room. The map said it was quiet over here."</div>
+      
+      <p>I squeezed my eyes shut so hard that I saw the stars. </p>
+      
+      <div class= "quote-box">"Go away!" I screamed. "If you look at me, you’re dead. Literally. I’m a Gorgon. I’m... Copperhead. I mean, Connor! Son of Medusa. And I'll turn you into a statue!"</div>
+
+      <p>There was silence. I waited for the scream, the running, the sound of her falling down the stairs in terror.</p>
+      
+      <p>Instead, I heard the sound of a zipper.</p>
+      
+      <div class= "quote-box">"A Gorgon? Really?" she said. I heard her sit down on the top step. "That’s a bit dramatic, don't you think? I'm Kayla. And honestly, I could use a statue right now to hold my yarn. This project is getting tangled."</div>
+      
+      <p>My heart is hammering against my ribs, again.</p>
+      
+      <div class= "quote-box">"Huh... Did you not hear me?" I gasped. "I’m dangerous. Put your hands over your eyes and leave!"</div>
+      
+      <p>I heard a soft, rhythmic clicking sound.</p>
+      
+      <p>Click-clack. Click-clack.</p>
+
+      <div class= "quote-box">"I’d love to," Kayla replied. "But... I’m blind, Copperhead. Or Connor. Whatever your name is. Unless your superpowers work through the sound waves, I think we’re both safe."</div>
+      
+      <p>I froze. I slowly lowered my hands, though I kept my eyelids squeezed shut just in case.</p>
+      
+      <div class= "quote-box">"You're... you're blind?"</div>
+      
+      <p>I'm awe and confused at the time.</p>
+      
+      <div class= "quote-box">"Since I was six," she said casually. "Nerve damage. Unless you’re incredibly ugly. Which, by judging your voice, you’re probably just a bit pensive. But, it won't make any difference to me."</div>
+      
+      <p>I opened my eyes.</p>
+      
+      <p>She was sitting there, knitting. She had messy brown hair and a light freckles across her nose. She wasn't looking at me, her eyes were fixed on the wall to my left, milky and unfocused, but she was smiling.</p>
+      
+      <p>She was knitting something pink and fluffy.</p>
+      
+      <p>I stood there, staring at her. For the first time in my life, I was looking at a human being without the barrier of leaded glass or the fear of ending their life. She was the most beautiful thing I had ever seen, mostly because she was the only thing I had ever truly seen.</p>
+      
+      <div class= "quote-box">"You're knitting," I whispered.</div>
+      
+      <p>I'm sliding down the wall until I was sitting on the floor, a safe ten feet away.</p>
+      
+      <div class= "quote-box">"It’s a scarf," she said. "For my brother. He’s a speedster. He runs so fast he catches pneumonia because of the wind chill." She paused, her needles pausing. "What do you look like? Are the snakes... loud?"</div>
+      
+      <p>I felt a flush creep up my neck.</p>
+      
+      <div class= "quote-box">"They’re mostly dormant when I’m calm. They just kind of... wiggle. They feel like a cold noodles on my head."</div>
+      
+      <p>She giggled. It was a small, bright sound that echoed in the lonely tower.</p>
+      
+      <div class= "quote-box">"Did you just say cold noodles? That’s not what the myths say. They make you sound like a nightmare."</div>
+      
+      <p>I admitted.</p>
+      
+      <div class= "quote-box">"Yeah! I feel like one. I live in a bell tower, Kayla. I eat lunch alone. I haven't touched another person since I was five years old."</div>
+      
+      <p>She's reaching something into her bag and pulling out a second pair of knitting needles and a ball of blue yarn.</p>
+      
+      <div class= "quote-box">"Well," she said.</div>
+      
+      <p>She tossed them toward me. They landed with a soft thud on the stone.</p>
+      
+      <div class= "quote-box">"If you’re going to be a hermit, you might as well be a productive one. Pick those up. I’m going to teach you how to purl."</div>
+      
+      <p>That was the beginning of the best and worst weeks of my gloomy life.</p>
+      
+      <p>Every day, Kayla would come up to my tower. She’d bring stories from the normal part of the school. She told me about the <strong>Minotaur</strong> in the gym who kept getting his horns stuck in the basketball hoop. She told me about the mean girls who used their telekinesis to cheat on chemistry tests. She talked about the world as if it were a comedy, not a battlefield of egos and powers.</p>
+      
+      <p>I learned to knit. My first scarf was lumpy and looked like it had been chewed by a <strong>Cerberus</strong>, but I loved it.</p>
+      
+      <div class= "quote-box">"You know," I said one afternoon, watching her hands move with effortless grace. "My mom says the world is cruel. She also says people like us; the monsters we have to hide because people will always try to turn us into trophies."</div>
+      
+      <p>She sighs and I, too.</p>
+      
+      <div class= "quote-box">"Your mom is half-right," Kayla said, not looking up. "The world is cruel. But it’s not because you’re a Gorgon. It’s because people are scared of anything they can’t control. They’re scared of me, too, in a way. They talk to me in a high-pitched voices like I’m a toddler. They assume that... I’m broken and useless."</div>
+      
+      <p>She stopped knitting and reached out her hand into the empty air between us. I know that feeling and I with her. It strikes a chord.</p>
+      
+      <div class= "quote-box">"But you don't do that. You just sound... like a guy. A guy with noodle hair who’s really bad at knitting."</div>
+      
+      <p>I laughed, a real, chest-aching laugh. I reached out, but my hands are trembling.</p>
+      
+      <div class= "quote-box">"I want to touch your hand. But I’m terrified."</div>
+      
+      <p>I stopped an inch from hers.</p>
+      
+      <div class= "quote-box">"I'm not made of stone, Copper," she whispered. "And I never will."</div>
+      
+      <p>I closed the gap. Her skin was warm. It was the first time I had felt the heat of another person’s body in a decade. I didn't turn her to stone. She didn't wither. We just sat there, two teenagers in a drafty tower, holding hands while the world outside pretended to be heroic.</p>
+      
+      <p>But the cruelty of the world isn't always in the monsters; it’s in the dark systems.</p>
+      
+      <p>A week later, the Headmaster, a man with eyes like cold flint who claimed the descent from <strong>Poseidon</strong>, came to the tower. He didn't come alone. He brought The Visionaries, a group of students with enhanced perception.</p>
+      
+      <div class= "quote-box">"Copperhead," he boomed from the stairs, his voice echoing. "We’ve had reports of a student trespassing in the containment zone. This is a violation of our safety protocols."</div>
+      
+      <p>I stood up, frantically looking for my goggles.</p>
+      
+      <div class= "quote-box">"She’s not trespassing! She’s my friend!"</div>
+      
+      <p>Kayla was there.</p>
+      
+      <div class= "quote-box">"I’m just knitting, sir."</div>
+      
+      <p>She's standing by the window, looking pale.</p>
+      
+      <div class= "quote-box">"You are a liability," the Headmaster said, appearing at the top of the stairs. "And you, my boy, are a weapon that hasn't been properly sheathed. We allowed you here as an experiment for inclusion, but it’s clear you cannot be trusted with the general population."</div>
+      
+      <p>He looked at me with clinical disgust.</p>
+      
+      <div class= "quote-box">"Wait! She’s the only person who can be near me! Why does that bother you?"</div>
+      
+      <p>I yelled.</p>
+      
+      <div class= "quote-box">"She’s blind!"</div>
+      
+      <p>Finally, I found my goggles and shoving them onto my face.</p>
+      
+      <div class= "quote-box">"Because," the Headmaster said, his voice dropping to a hiss. "In this school, we maintain order. We don't have outliers. You're a Gorgon. She's a defect. You were all meant to be isolated."</div>
+      
+      <p>He moved toward Kayla, his hand reaching out to grab her arm to escort her out.</p>
+      
+      <div class= "quote-box">"Come on, girl. You'll be relocated to a school more suited for your... limitations."</div>
+      
+      <p>Something in me snapped. It wasn't my superpower. It was just me. I stepped between them. I ripped the goggles off my face.</p>
+      
+      <div class= "quote-box">"Look at me!" I roared at the Headmaster.</div>
+      
+      <p>He recoiled, his eyes widening in instinctive terror. He knew the myth. He knew my powers. He covered his eyes, stumbling back toward the stairs. The Visionaries behind him were scrambled, screaming, falling over each other to avoid my gaze.</p>
+      
+      <div class= "quote-box">"You’re all so afraid of seeing," I said, my voice trembling with rage. "You have all these powers, all these gifts, but you can't even look at a person without wondering how to use them or hide them."</div>
+      
+      <p>I turned to Kayla.</p>
+      
+      <div class= "quote-box">"Let’s go," I said.</div>
+      
+      <p>She was standing still, her head tilted, listening to the chaos.</p>
+      
+      <div class= "quote-box">"Where?" she asked.</div>
+      
+      <p>I'm unsure but, for her I'm certain.</p>
+      
+      <div class= "quote-box">"Anywhere," I said. "My mom has a car. She doesn't have a license, but the snakes usually keep the cops away."</div>
+      
+      <p>We walked down those stairs together. I kept my eyes fixed on the floor, my hand firmly in hers. We walked through the halls of Olympus High. People parted like the Red Sea. Some hid behind lockers; others shielded their eyes with their capes. They were the heroes, and they were terrified.</p>
+      
+      <p>We reached the front gates. The sun was setting over Athens, turning the Parthenon in the distance into a crown of gold.</p>
+      
+      <p>I put my goggles back on. Not because I was ashamed, but because I wanted to protect the world from me. Not for their sake, but for mine. I didn't want their deaths on my conscience.</p>
+      
+      <div class= "quote-box">"Copper?"</div>
+      
+      <p>Kayla asked.</p>
+      
+      <div class= "quote-box">"Yeah!</div>
+      
+      <p>We stood on the sidewalk.</p>
+      <div class= "quote-box">"Can I feel your face? Just once? I want to know if you look as grumpy as you sound."</div>
+      
+      <p>I leaned down. She reached up, her fingers tracing the line of my jaw, the bridge of my nose, and finally, the soft, cool scales of the snakes on my head. She didn't flinch. She didn't turn to stone.</p>
+      
+      <div class= "quote-box">"You're not a monster," she whispered, her thumb brushing my cheek. "You're just... a copperhead," she giggled.</div>
+      
+      <p>I smiled, and for the first time, the tower felt a million miles away. We were just two kids in a cruel world, but as we walked toward the bus stop, I realized you don't need a superpower to change someone’s life. You just need to be the one person who isn't afraid to look, even if you have to do it with your heart instead of your blindsided eyes.</p>
+      
+      <p>But, I still have a lumpy blue scarf. It’s the most powerful thing I own. And I wonder, what if I make some bonnets from now on.</p>
+    </article>
+    <section class="about-section">
+        <h3>About</h3>
+            <a href="https://blumabas902pbox-dev.github.io/Personal-Profile/" target="_blank" class="about-card">
+            <div class="profile-info">
+                <img src="Bryan Jay M.png" alt="Avatar" class="author-avatar">
+                <div>
+                    <p style="font-weight: bold;">Bryan Jay M.</p>
+                    <p style="font-size: 0.75rem; color: var(--text-muted);">6 days ago</p>
+                </div>
+            </div>
+            <div class="stats">
+                <div class="stat-item" onclick="toggleLike(event, this)">
+                    <i class="fa-regular fa-heart"></i> <span id="like-count">10</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fa-regular fa-comment"></i> 0
+                </div>
+                <div class="stat-item">
+                    <i class="fa-solid fa-chart-simple"></i> 0
+                </div>
+            </div>
+        </a>
+    </section>
+
+    <section class="comments-section">
+        <h3 class="comments-header">Comments</h3>
+        <div class="comment-input-area">
+            <textarea id="comment-text" placeholder="Type your comment here..." rows="3"></textarea>
+            <button class="btn-comment" onclick="postComment()">Post</button>
+            <div style="clear: both;"></div>
+        </div>
+        <ul id="comment-list">
+        </ul>
+    </section>
+</div>
+
+<script>
+    function toggleLike(event, element) {
+        event.stopPropagation();
+        const icon = element.querySelector('i');
+        const countSpan = document.getElementById('like-count');
+        let count = parseInt(countSpan.innerText);
+
+        if (icon.classList.contains('fa-regular')) {
+            icon.classList.replace('fa-regular', 'fa-solid');
+            icon.classList.add('heart-active');
+            countSpan.innerText = count + 1;
+        } else {
+            icon.classList.replace('fa-solid', 'fa-regular');
+            icon.classList.remove('heart-active');
+            countSpan.innerText = count - 1;
+        }
+    }
+
+    function postComment() {
+        const textarea = document.getElementById('comment-text');
+        const list = document.getElementById('comment-list');
+        
+        if (textarea.value.trim() === "") {
+            alert("Please sign in with Gmail to comment (Simulated)");
+            return;
+        }
+
+        const newComment = document.createElement('li');
+        newComment.className = 'comment-item';
+        newComment.innerHTML = `
+            <div class="comment-user">
+                Guest User (Gmail)
+                <button class="edit-btn" onclick="editComment(this)">Edit</button>
+                <button class="edit-btn" onclick="deleteComment(this)" style="color: #e74c3c; margin-left: 10px;">Delete</button>
+            </div>
+            <p class="comment-text" contenteditable="false">${textarea.value}</p>
+        `;
+
+        list.prepend(newComment);
+        textarea.value = "";
+    }
+
+    function editComment(btn) {
+        const commentDiv = btn.closest('.comment-item');
+        const textElement = commentDiv.querySelector('.comment-text');
+        
+        if (textElement.contentEditable === "false") {
+            textElement.contentEditable = "true";
+            textElement.focus();
+            btn.innerText = "Save";
+            btn.style.color = "var(--accent-gold)";
+        } else {
+            textElement.contentEditable = "false";
+            btn.innerText = "Edit";
+            btn.style.color = "var(--text-muted)";
+        }
+    }
+
+    function deleteComment(btn) {
+        const commentDiv = btn.closest('.comment-item');
+        if (confirm("Are you sure you want to delete this comment?")) {
+            commentDiv.remove();
+        }
+    }
+</script>
+</body>
+</html>
